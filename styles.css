@@ -1,0 +1,22 @@
+body {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+canvas {
+  padding: 10px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: green;
+  border-radius: 8px;
+}
+
+h1 {
+
+}
+
+p {
+  font-family: 'Audiowide', cursive;
+  font-size: 40px;
+}
