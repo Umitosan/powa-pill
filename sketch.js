@@ -12,7 +12,7 @@
 const MWIDTH = 800;
 const MHEIGHT = 400;
 var myPac = new pac(50,MHEIGHT / 2,5,30);  // pac(someX,someY,someSpeed,someWidth)
-var userDirection = 'right';
+var pacDirection = 'right';
 var lastKey = 'none';  // last pressed key
 
 function setup() {
@@ -35,19 +35,19 @@ function draw() {
   textAlign(RIGHT)
   text("keycode: " + lastKey,MWIDTH-4,24)
   myPac.render();
-  myPac.slide(userDirection);
+  myPac.slide(pacDirection);
 }
 
 function keyPressed() {
   lastKey = keyCode;
   if (keyCode === LEFT_ARROW) {
-    userDirection = 'left';
+    pacDirection = 'left';
   } else if (keyCode === RIGHT_ARROW) {
-    userDirection = 'right';
+    pacDirection = 'right';
   } else if (keyCode === UP_ARROW) {
-    userDirection = 'up';
+    pacDirection = 'up';
   } else if (keyCode === DOWN_ARROW) {
-    userDirection = 'down';
+    pacDirection = 'down';
   } else {
     // do nothing
   }
@@ -59,6 +59,7 @@ function pac(someX,someY,someSpeed,someWidth) {
   this.speed1 = someSpeed;
   this.diameter = someWidth;
   this.radius = someWidth / 2;
+  this.mouthFactor = 1;
 
   this.slide = function(direction) {
     if (direction === 'left') {
@@ -78,26 +79,64 @@ function pac(someX,someY,someSpeed,someWidth) {
   // collision detection
   this.checkBounds = function() {
     if (this.x1 - this.radius < 10) {  // check left
-      userDirection = 'right';
+      pacDirection = 'right';
     } else if (this.x1 + this.radius > MWIDTH-10) { // check right
-      userDirection = 'left';
+      pacDirection = 'left';
     } else if (this.y1 + this.radius > MHEIGHT-10) {  // check down
-      userDirection = 'up';
+      pacDirection = 'up';
     } else if (this.y1 - this.radius < 10) { // check up
-      userDirection = 'down';
+      pacDirection = 'down';
     } else {
       // in bounds
     }
   }
 
+  // determine amount of mouth to close base on frame timing
+  this.nextMouth = function() {
+    if (frameCount % 10 == 0) {
+      if ( this.mouthFactor > 1.4) {
+        this.mouthFactor = 1;
+      } else {
+        this.mouthFactor += 0.1;
+      }
+    }
+  }
+
   this.render = function() {
     var r = this.diameter / 4 + 3;
+    var mouthFact = this.mouthFactor;
     // arc(x,y,width,height,start,stop,[mode])
+    // ellipse(x,y,height,width)
     fill('yellow');
-    arc(this.x1, this.y1, 40, 40, 0.1, 2*PI-0.1, PIE);
-
-  }
+    switch ( pacDirection )  {
+      case 'left':
+        arc(this.x1, this.y1, this.diameter, this.diameter, (-(2*PI)/3)*mouthFact, ((2*PI)/3)*mouthFact, PIE);  break;
+      case 'right':
+        push();
+        translate(this.x1, this.y1);  // new center of drawing map is center of pacman
+        rotate( PI );
+        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*mouthFact, ((2*PI)/3)*mouthFact, PIE);  break;
+        pop();
+      case 'up':
+        push();
+        translate(this.x1, this.y1);  // new center of drawing map is center of pacman
+        rotate( PI/2 );
+        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*mouthFact, ((2*PI)/3)*mouthFact, PIE);  break;
+        pop();
+      case 'down':
+        push();
+        translate(this.x1, this.y1);  // new center of drawing map is center of pacman
+        rotate( 3*PI/2 );
+        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*mouthFact, ((2*PI)/3)*mouthFact, PIE);  break;
+        pop();
+      default: console.log("switch broke"); break;
+    } // end switch
+    // open mouth more
+    this.nextMouth();
+  } // end render function
 }
+
+
 
 // keyCode special keys
 // check http://keycode.info/ for all other keys
