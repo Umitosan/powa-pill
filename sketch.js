@@ -11,10 +11,9 @@
 
 const MWIDTH = 800;
 const MHEIGHT = 400;
-var mySpinner = new spinner(10,MHEIGHT / 2,3,30);
+var myPac = new pac(50,MHEIGHT / 2,5,30);  // pac(someX,someY,someSpeed,someWidth)
 var userDirection = 'right';
 var lastKey = 'none';  // last pressed key
-var spinDirection = 'c';
 
 function setup() {
   createCanvas(MWIDTH, MHEIGHT);
@@ -35,18 +34,16 @@ function draw() {
   text(frameCount, 4, 24);
   textAlign(RIGHT)
   text("keycode: " + lastKey,MWIDTH-4,24)
-  mySpinner.render();
-  mySpinner.slide(userDirection);
+  myPac.render();
+  myPac.slide(userDirection);
 }
 
 function keyPressed() {
   lastKey = keyCode;
   if (keyCode === LEFT_ARROW) {
     userDirection = 'left';
-    spinDirection = 'cc';
   } else if (keyCode === RIGHT_ARROW) {
     userDirection = 'right';
-    spinDirection = 'c';
   } else if (keyCode === UP_ARROW) {
     userDirection = 'up';
   } else if (keyCode === DOWN_ARROW) {
@@ -56,11 +53,12 @@ function keyPressed() {
   }
 }
 
-function spinner(someX,someY,someSpeed,someWidth) {
+function pac(someX,someY,someSpeed,someWidth) {
   this.x1 = someX;
   this.y1 = someY;
   this.speed1 = someSpeed;
   this.diameter = someWidth;
+  this.radius = someWidth / 2;
 
   this.slide = function(direction) {
     if (direction === 'left') {
@@ -77,16 +75,15 @@ function spinner(someX,someY,someSpeed,someWidth) {
     this.checkBounds();
   }
 
+  // collision detection
   this.checkBounds = function() {
-    if (this.x1 + this.diameter > MWIDTH+10) {
-      userDirection = 'left';
-      spinDirection = 'cc';
-    } else if (this.x1 - this.diameter < -10) {
+    if (this.x1 - this.radius < 10) {  // check left
       userDirection = 'right';
-      spinDirection = 'c';
-    } else if (this.y1 + this.diameter > MHEIGHT+10) {
+    } else if (this.x1 + this.radius > MWIDTH-10) { // check right
+      userDirection = 'left';
+    } else if (this.y1 + this.radius > MHEIGHT-10) {  // check down
       userDirection = 'up';
-    } else if (this.y1 - this.diameter < -10) {
+    } else if (this.y1 - this.radius < 10) { // check up
       userDirection = 'down';
     } else {
       // in bounds
@@ -95,25 +92,33 @@ function spinner(someX,someY,someSpeed,someWidth) {
 
   this.render = function() {
     var r = this.diameter / 4 + 3;
-    // if (frameCount % 5 == 0) {
-      stroke('blue');
-      // circle
-      fill('lightgreen');
-      ellipse(this.x1, this.y1, this.diameter, this.diameter);
-      // cross inside circle
-      push();
-      translate(mySpinner.x1, mySpinner.y1);
-      // spin direction, this is calculated from objects speed and framecount
-      if (spinDirection == 'c') { rotate(frameCount / ( this.speed1 * 5) ); } ;
-      if (spinDirection == 'cc') { rotate(frameCount / (-this.speed1 * 5)); } ;
-      line(-r,-r,r,r);
-      line(-r,r,r,-r);
-      pop();
-    // }
+    // arc(x,y,width,height,start,stop,[mode])
+    fill('yellow');
+    arc(this.x1, this.y1, 40, 40, 0.1, 2*PI-0.1, PIE);
+
   }
 }
 
-// // keyCode special keys
-// // check http://keycode.info/ for all other keys
-// // BACKSPACE, DELETE, ENTER, RETURN, TAB, ESCAPE, SHIFT, CONTROL, OPTION, ALT, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW
-// // spacebar = 32
+// keyCode special keys
+// check http://keycode.info/ for all other keys
+// BACKSPACE, DELETE, ENTER, RETURN, TAB, ESCAPE, SHIFT, CONTROL, OPTION, ALT, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW
+// spacebar = 32
+
+// ARC
+// arc(a,b,c,d,start,stop,[mode])
+// Parameters
+// a	Number: x-coordinate of the arc's ellipse
+// b	Number: y-coordinate of the arc's ellipse
+// c	Number: width of the arc's ellipse by default
+// d	Number: height of the arc's ellipse by default
+// start	Number: angle to start the arc, specified in radians
+// stop	Number: angle to stop the arc, specified in radians
+// mode	Constant: optional parameter to determine the way of drawing the arc. either CHORD or PIE
+
+
+// Constants
+// HALF_PI
+// PI
+// QUARTER_PI
+// TAU
+// TWO_PI
