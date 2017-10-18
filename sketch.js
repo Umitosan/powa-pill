@@ -6,15 +6,19 @@
 // setup() is called (if included in the sketch). Note that p5 will not wait to go onto draw if there are loading methods in setup().
 // draw() is called (if included in the sketch). It continues to be called based on variables set by noLoop()/loop() and frameRate().
 
+// original 1980s dimentions
+// 26-28 tiles wide 26 dots fit 28 tiles with edge
+// 29-31 tiles tall 29 dots fit 31 tiles with edge
+
 // window.innerWidth,
 // window.innerHeight
 
 // COLORS
 // pac yellow = #FFFF01
 
-const MWIDTH = 800;
-const MHEIGHT = 400;
-var myPac = new pac(50,MHEIGHT / 2,5,30,'right','go');  // pac(someX,someY,someSpeed,someWidth,faceDirection,moveState)
+const MWIDTH = 678;
+const MHEIGHT = 782;
+var myPac = new pac(50,MHEIGHT / 2,5,42,'right','go');  // pac(someX,someY,someSpeed,someWidth,faceDirection,moveState)
 var lastKey = 'none';  // last pressed key
 
 function setup() {
@@ -29,15 +33,21 @@ function setup() {
 //   MAIN LOOP
 function draw() {
   background('black');
+  textSize(10);
+  showGrid(26);
+  textSize(20);
   fill('#FFFF01');
-  textAlign(LEFT)
+  stroke('black'); // stroke(color,[alpha])
+  textAlign(LEFT);
   text('frame: ' + frameCount, 4, 24);   // draw framecount in upper left corner
-  textAlign(RIGHT)
-  text("keycode: " + lastKey,MWIDTH-4,24)
+  textAlign(RIGHT);
+  text("keycode: " + lastKey,MWIDTH-4,24);
   if ( (myPac.moveState === 'go') && (myPac.inBounds() === true) ) {
     myPac.slide();
     myPac.nextMouth();
   }
+  stroke('#FFFF01');
+  fill('#FFFF01');
   myPac.render();
 } //   END MAIN LOOP
 
@@ -58,6 +68,25 @@ function keyPressed() {
     myPac.moveState = 'go';
   } else {
     // do nothing
+  }
+}
+
+function showGrid(tileWidth) {
+  var ii = 0;
+  var jj = 0;
+  for (i=0; i<=MWIDTH ; i+=tileWidth) {
+    stroke('green');
+    line(i, 0, i, MHEIGHT);
+    stroke('black');
+    text(ii, i-10, tileWidth*1.6);
+    ii += 1;
+  }
+  for (i=0; i<=MHEIGHT ; i+=tileWidth) {
+    stroke('green');
+    line(0, i, MWIDTH, i);
+    stroke('black');
+    text(jj, tileWidth*1.6, i-10);
+    jj += 1;
   }
 }
 
@@ -120,7 +149,6 @@ function pac(someX,someY,someSpeed,someWidth,faceDirection,moveState) {
     var r = this.diameter / 4 + 3;
     // arc(x,y,width,height,start,stop,[mode])
     // ellipse(x,y,height,width)
-    fill('#FFFF01');
     switch ( this.direction )  {
       case 'left':
         arc(this.x1, this.y1, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthSize, ((2*PI)/3)*this.mouthSize, PIE);  break;
