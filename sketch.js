@@ -11,8 +11,7 @@
 
 const MWIDTH = 800;
 const MHEIGHT = 400;
-var myPac = new pac(50,MHEIGHT / 2,5,30);  // pac(someX,someY,someSpeed,someWidth)
-var pacDirection = 'right';
+var myPac = new pac(50,MHEIGHT / 2,5,30,'right','go');  // pac(someX,someY,someSpeed,someWidth,faceDirection,moveState)
 var lastKey = 'none';  // last pressed key
 
 function setup() {
@@ -21,74 +20,83 @@ function setup() {
   background(0);
   textSize(20);
 }
-//
-// /////////
-// // MAIN LOOP
-// //////////
+
+//   MAIN LOOP
 function draw() {
-  // draw frame in upper left corner
   background('rgb(200,200,200)');
   stroke('black');
   fill('black');
   textAlign(LEFT)
-  text(frameCount, 4, 24);
+  text(frameCount, 4, 24);   // draw framecount in upper left corner
   textAlign(RIGHT)
   text("keycode: " + lastKey,MWIDTH-4,24)
+  if ( (myPac.moveState === 'go') && (myPac.inBounds() === true) ) {
+    myPac.slide();
+    myPac.nextMouth();
+  }
   myPac.render();
-  myPac.slide(pacDirection);
-}
+} //   END MAIN LOOP
+
 
 function keyPressed() {
   lastKey = keyCode;
   if (keyCode === LEFT_ARROW) {
-    pacDirection = 'left';
+    myPac.direction = 'left';
+    myPac.moveState = 'go';
   } else if (keyCode === RIGHT_ARROW) {
-    pacDirection = 'right';
+    myPac.direction = 'right';
+    myPac.moveState = 'go';
   } else if (keyCode === UP_ARROW) {
-    pacDirection = 'up';
+    myPac.direction = 'up';
+    myPac.moveState = 'go';
   } else if (keyCode === DOWN_ARROW) {
-    pacDirection = 'down';
+    myPac.direction = 'down';
+    myPac.moveState = 'go';
   } else {
     // do nothing
   }
 }
 
-function pac(someX,someY,someSpeed,someWidth) {
+function pac(someX,someY,someSpeed,someWidth,faceDirection,moveState) {
   this.x1 = someX;
   this.y1 = someY;
   this.speed1 = someSpeed;
   this.diameter = someWidth;
   this.radius = someWidth / 2;
   this.mouthFactor = 1;
+  this.direction = faceDirection;
+  this.moveState = moveState;
 
-  this.slide = function(direction) {
-    if (direction === 'left') {
+  // move pac in facing direction
+  this.slide = function() {
+    if (this.direction === 'left') {
       this.x1 -= this.speed1;
-    } else if (direction === 'right') {
+    } else if (this.direction === 'right') {
       this.x1 += this.speed1;
-    } else if (direction === 'up') {
+    } else if (this.direction === 'up') {
       this.y1 -= this.speed1;
-    } else if (direction === 'down') {
+    } else if (this.direction === 'down') {
       this.y1 += this.speed1;
     } else {
       console.log(' slide problems ');
     }
-    this.checkBounds();
   }
 
-  // collision detection
-  this.checkBounds = function() {
-    if (this.x1 - this.radius < 10) {  // check left
-      pacDirection = 'right';
-    } else if (this.x1 + this.radius > MWIDTH-10) { // check right
-      pacDirection = 'left';
-    } else if (this.y1 + this.radius > MHEIGHT-10) {  // check down
-      pacDirection = 'up';
-    } else if (this.y1 - this.radius < 10) { // check up
-      pacDirection = 'down';
+  // is pac in bounds? (true/false)
+  this.inBounds = function() {
+    var bounds;
+    if ( (this.x1 - this.radius < 6) && (this.direction === 'left') ) {  // check left
+      bounds = false;
+    } else if ( (this.x1 + this.radius > MWIDTH-6) && (this.direction === 'right') ) { // check right
+      bounds = false;
+    } else if ( (this.y1 + this.radius > MHEIGHT-6) && (this.direction === 'down') ) {  // check down
+      bounds = false;
+    } else if ( (this.y1 - this.radius < 6) && (this.direction === 'up') ) { // check up
+      bounds = false;
     } else {
-      // in bounds
+      bounds = true;
     }
+    return bounds;
   }
 
   // determine amount of mouth to close base on frame timing
@@ -104,35 +112,38 @@ function pac(someX,someY,someSpeed,someWidth) {
 
   this.render = function() {
     var r = this.diameter / 4 + 3;
-    var mouthFact = this.mouthFactor;
     // arc(x,y,width,height,start,stop,[mode])
     // ellipse(x,y,height,width)
     fill('yellow');
-    switch ( pacDirection )  {
+    switch ( this.direction )  {
       case 'left':
-        arc(this.x1, this.y1, this.diameter, this.diameter, (-(2*PI)/3)*mouthFact, ((2*PI)/3)*mouthFact, PIE);  break;
+        arc(this.x1, this.y1, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthFactor, ((2*PI)/3)*this.mouthFactor, PIE);  break;
       case 'right':
         push();
         translate(this.x1, this.y1);  // new center of drawing map is center of pacman
         rotate( PI );
-        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*mouthFact, ((2*PI)/3)*mouthFact, PIE);  break;
+        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthFactor, ((2*PI)/3)*this.mouthFactor, PIE);  break;
         pop();
       case 'up':
         push();
         translate(this.x1, this.y1);  // new center of drawing map is center of pacman
         rotate( PI/2 );
-        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*mouthFact, ((2*PI)/3)*mouthFact, PIE);  break;
+        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthFactor, ((2*PI)/3)*this.mouthFactor, PIE);  break;
         pop();
       case 'down':
         push();
         translate(this.x1, this.y1);  // new center of drawing map is center of pacman
         rotate( 3*PI/2 );
-        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*mouthFact, ((2*PI)/3)*mouthFact, PIE);  break;
+        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthFactor, ((2*PI)/3)*this.mouthFactor, PIE);  break;
+        pop();
+      case 'stop':
+        push();
+        translate(this.x1, this.y1);  // new center of drawing map is center of pacman
+        rotate( 3*PI/2 );
+        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthFactor, ((2*PI)/3)*this.mouthFactor, PIE);  break;
         pop();
       default: console.log("switch broke"); break;
     } // end switch
-    // open mouth more
-    this.nextMouth();
   } // end render function
 }
 
