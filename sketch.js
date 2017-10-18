@@ -9,13 +9,18 @@
 // window.innerWidth,
 // window.innerHeight
 
+// COLORS
+// pac yellow = #FFFF01
+
 const MWIDTH = 800;
 const MHEIGHT = 400;
 var myPac = new pac(50,MHEIGHT / 2,5,30,'right','go');  // pac(someX,someY,someSpeed,someWidth,faceDirection,moveState)
 var lastKey = 'none';  // last pressed key
 
 function setup() {
-  createCanvas(MWIDTH, MHEIGHT);
+  // createCanvas(w,h,[renderer])
+  // move the canvas to be inside a parent element div
+  createCanvas(MWIDTH, MHEIGHT, P2D).parent('sketch-holder-div');
   frameRate(60);
   background(0);
   textSize(20);
@@ -23,11 +28,10 @@ function setup() {
 
 //   MAIN LOOP
 function draw() {
-  background('rgb(200,200,200)');
-  stroke('black');
-  fill('black');
+  background('black');
+  fill('#FFFF01');
   textAlign(LEFT)
-  text(frameCount, 4, 24);   // draw framecount in upper left corner
+  text('frame: ' + frameCount, 4, 24);   // draw framecount in upper left corner
   textAlign(RIGHT)
   text("keycode: " + lastKey,MWIDTH-4,24)
   if ( (myPac.moveState === 'go') && (myPac.inBounds() === true) ) {
@@ -114,7 +118,7 @@ function pac(someX,someY,someSpeed,someWidth,faceDirection,moveState) {
     var r = this.diameter / 4 + 3;
     // arc(x,y,width,height,start,stop,[mode])
     // ellipse(x,y,height,width)
-    fill('yellow');
+    fill('#FFFF01');
     switch ( this.direction )  {
       case 'left':
         arc(this.x1, this.y1, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthFactor, ((2*PI)/3)*this.mouthFactor, PIE);  break;
