@@ -107,14 +107,13 @@ function pac(someX,someY,someSpeed,someWidth,faceDirection,moveState) {
   // determine amount of mouth to close base on frame timing
   this.nextMouth = function() {
     if ( this.mouthSize > 1.46 ) {
-      this.mouthVelocity = -0.02;
-      this.mouthSize += this.mouthVelocity;
+      this.mouthVelocity = -0.04;
     } else if ( this.mouthSize <= 1.00 ) {
-      this.mouthVelocity = 0.02;
-      this.mouthSize += this.mouthVelocity;
+      this.mouthVelocity = 0.06;
     } else {
-      this.mouthSize += this.mouthVelocity;
+      // do nothing?
     }
+    this.mouthSize += this.mouthVelocity;
   }
 
   this.render = function() {
