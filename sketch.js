@@ -67,7 +67,8 @@ function pac(someX,someY,someSpeed,someWidth,faceDirection,moveState) {
   this.speed1 = someSpeed;
   this.diameter = someWidth;
   this.radius = someWidth / 2;
-  this.mouthFactor = 1;
+  this.mouthSize = 1;
+  this.mouthVelocity = 0.02;
   this.direction = faceDirection;
   this.moveState = moveState;
 
@@ -105,12 +106,14 @@ function pac(someX,someY,someSpeed,someWidth,faceDirection,moveState) {
 
   // determine amount of mouth to close base on frame timing
   this.nextMouth = function() {
-    if (frameCount % 10 == 0) {
-      if ( this.mouthFactor > 1.4) {
-        this.mouthFactor = 1;
-      } else {
-        this.mouthFactor += 0.1;
-      }
+    if ( this.mouthSize > 1.46 ) {
+      this.mouthVelocity = -0.02;
+      this.mouthSize += this.mouthVelocity;
+    } else if ( this.mouthSize <= 1.00 ) {
+      this.mouthVelocity = 0.02;
+      this.mouthSize += this.mouthVelocity;
+    } else {
+      this.mouthSize += this.mouthVelocity;
     }
   }
 
@@ -121,30 +124,30 @@ function pac(someX,someY,someSpeed,someWidth,faceDirection,moveState) {
     fill('#FFFF01');
     switch ( this.direction )  {
       case 'left':
-        arc(this.x1, this.y1, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthFactor, ((2*PI)/3)*this.mouthFactor, PIE);  break;
+        arc(this.x1, this.y1, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthSize, ((2*PI)/3)*this.mouthSize, PIE);  break;
       case 'right':
         push();
         translate(this.x1, this.y1);  // new center of drawing map is center of pacman
         rotate( PI );
-        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthFactor, ((2*PI)/3)*this.mouthFactor, PIE);  break;
+        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthSize, ((2*PI)/3)*this.mouthSize, PIE);  break;
         pop();
       case 'up':
         push();
         translate(this.x1, this.y1);  // new center of drawing map is center of pacman
         rotate( PI/2 );
-        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthFactor, ((2*PI)/3)*this.mouthFactor, PIE);  break;
+        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthSize, ((2*PI)/3)*this.mouthSize, PIE);  break;
         pop();
       case 'down':
         push();
         translate(this.x1, this.y1);  // new center of drawing map is center of pacman
         rotate( 3*PI/2 );
-        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthFactor, ((2*PI)/3)*this.mouthFactor, PIE);  break;
+        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthSize, ((2*PI)/3)*this.mouthSize, PIE);  break;
         pop();
       case 'stop':
         push();
         translate(this.x1, this.y1);  // new center of drawing map is center of pacman
         rotate( 3*PI/2 );
-        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthFactor, ((2*PI)/3)*this.mouthFactor, PIE);  break;
+        arc(0, 0, this.diameter, this.diameter, (-(2*PI)/3)*this.mouthSize, ((2*PI)/3)*this.mouthSize, PIE);  break;
         pop();
       default: console.log("switch broke"); break;
     } // end switch
