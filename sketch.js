@@ -16,10 +16,13 @@
 // COLORS
 // pac yellow = #FFFF01
 
-const MWIDTH = 678;
-const MHEIGHT = 782;
-var myPac = new pac(50,MHEIGHT / 2,5,42,'right','go');  // pac(someX,someY,someSpeed,someWidth,faceDirection,moveState)
+const MWIDTH = 702;
+const MHEIGHT = 777;
+const TILESIZE = 25;
+var myPac = new Pac(50,MHEIGHT / 2,5,42,'right','go');  // pac(someX,someY,someSpeed,someWidth,faceDirection,moveState)
+var myLevel = new Level();
 var lastKey = 'none';  // last pressed key
+var debugOn = true; // this sate will show the tile grid framecount and other debugging info in realtime
 
 function setup() {
   // createCanvas(w,h,[renderer])
@@ -34,14 +37,16 @@ function setup() {
 function draw() {
   background('black');
   textSize(10);
-  showGrid(26);
-  textSize(20);
-  fill('#FFFF01');
-  stroke('black'); // stroke(color,[alpha])
-  textAlign(LEFT);
-  text('frame: ' + frameCount, 4, 24);   // draw framecount in upper left corner
-  textAlign(RIGHT);
-  text("keycode: " + lastKey,MWIDTH-4,24);
+  if (debugOn === true) {
+    showGrid(TILESIZE);
+    textSize(20);
+    fill('#FFFF01');
+    stroke('black'); // stroke(color,[alpha])
+    textAlign(LEFT);
+    text('frame: ' + frameCount, 4, 24);   // draw framecount in upper left corner
+    textAlign(RIGHT);
+    text("keycode: " + lastKey,MWIDTH-4,24);
+  }
   if ( (myPac.moveState === 'go') && (myPac.inBounds() === true) ) {
     myPac.slide();
     myPac.nextMouth();
@@ -66,6 +71,13 @@ function keyPressed() {
   } else if (keyCode === DOWN_ARROW) {
     myPac.direction = 'down';
     myPac.moveState = 'go';
+  } else if (keyCode === 32) { // spacebar = 32
+    myPac.moveState = 'stop';
+  } else if (keyCode === 80) { // P = 80
+    // pause
+    myLevel.buildLevel();
+  } else if (keyCode === 71) { // G = 71
+    toggleGrid();
   } else {
     // do nothing
   }
@@ -90,7 +102,18 @@ function showGrid(tileWidth) {
   }
 }
 
-function pac(someX,someY,someSpeed,someWidth,faceDirection,moveState) {
+function toggleGrid() {
+  console.log("toggle grid");
+  if (debugOn === true) {
+    debugOn = false;
+  } else if (debugOn === false) {
+    debugOn = true;
+  } else {
+    // nothing
+  }
+}
+
+function Pac(someX,someY,someSpeed,someWidth,faceDirection,moveState) {
   this.x1 = someX;
   this.y1 = someY;
   this.speed1 = someSpeed;
@@ -181,6 +204,52 @@ function pac(someX,someY,someSpeed,someWidth,faceDirection,moveState) {
   } // end render function
 }
 
+function Tile(someType) {
+  this.type = type;
+}
+
+function Level() {
+  var layout = [
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
+  ];
+
+  this.buildLevel =function() {
+    console.log(layout);
+  }
+
+  this.render = function() {
+
+  }
+}
 
 
 // keyCode special keys
