@@ -1,4 +1,10 @@
- /* pac man font source http://www.classicgaming.cc/classics/pac-man/fonts*/
+/*
+pac man font source http://www.classicgaming.cc/classics/pac-man/fonts
+COLORS
+pac yellow = #FFFF01
+teal #82B9C0 rgb(130, 185, 192)
+red #C7402E rgb(199, 64, 46)
+*/
 
 @font-face {
     font-family: "joystix";
@@ -23,6 +29,10 @@ canvas {
   border-radius: 10px;
 }
 
+p {
+  font-size: 30px;
+}
+
 .title-div {
   width: 1196px;
   display: block;
@@ -32,24 +42,62 @@ canvas {
 #title {
   text-align: center;
   font-size: 40px;
+  font-weight: bold;
   color: #FFFF01;
+  /*text-shadow: x-offset y-offset blur-radius color|none|initial|inherit;*/
+  text-shadow: 3px 3px 1px rgba(225, 64, 46, 0.8),
+              -3px -3px 1px rgba(120, 200, 192, 0.8);
 }
 
 .main-row {
   display: inline-flex;
   color: blue;
-  font-size: 30;
   font-family: "joystix";
 }
 
-.left-col {
+.left-col, .right-col {
   text-align: center;
   width: 240px;
+  color: #1532BC;
+}
+
+.left-col {
 }
 
 .right-col {
-  text-align: center;
-  width: 240px;
+}
+
+/*
+←	&#8592;	&larr;	LEFTWARDS ARROW
+↑	&#8593;	&uarr;	UPWARDS ARROW
+→	&#8594;	&rarr;	RIGHTWARDS ARROW
+↓	&#8595;	&darr;	DOWNWARDS ARROW
+*/
+.keycaps {
+}
+.cap-row1 {
+  width: 100%;
+  margin-bottom: 2px;
+}
+.cap-row2 {
+  width: 100%;
+}
+.keycap {
+  height: 50px;
+  width: 50px;
+  font-size: 30px;
+  border-color: blue;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 4px;
+}
+#up {
+  display: inline-block;
+}
+#left, #down, #right {
+  display: inline-block;
+  margin-left: -2px;
+  margin-right: -2px;
 }
 
 #sketch-holder-div {

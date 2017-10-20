@@ -58,7 +58,6 @@ function draw() {
   myPac.render();
 } //   END MAIN LOOP
 
-
 function keyPressed() {
   lastKey = keyCode;
   if (keyCode === LEFT_ARROW) {
