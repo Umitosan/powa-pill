@@ -1,5 +1,4 @@
 body {
-  text-align: center;
   background-color: black;
   font-family: 'Audiowide', cursive;
 }
@@ -12,7 +11,13 @@ canvas {
   border-radius: 10px;
 }
 
+.title-div {
+  width: 1196px;
+  display: block;
+}
+
 #title {
+  text-align: center;
   font-size: 40px;
   color: #FFFF01;
 }
@@ -24,10 +29,12 @@ canvas {
 }
 
 .left-col {
+  text-align: center;
   width: 240px;
 }
 
 .right-col {
+  text-align: center;
   width: 240px;
 }
 
