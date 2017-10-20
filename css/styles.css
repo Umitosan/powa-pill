@@ -7,15 +7,7 @@ red #C7402E rgb(199, 64, 46)
 */
 /*shit*/
 
-@font-face {
-    font-family: "joystix";
-    src: url("../assets/fonts/joystix.ttf");
-}
 
-@font-face {
-    font-family: "pac-font";
-    src: url("../assets/fonts/pac-font.ttf");
-}
 
 body {
   background-color: black;
