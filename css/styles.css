@@ -9,7 +9,7 @@ red #C7402E rgb(199, 64, 46)
 
 @font-face {
     font-family: "joystix";
-    src: url("./joystix.ttf");
+    src: url("../powa-pill/css/joystix.ttf");
 }
 
 @font-face {
