@@ -1,3 +1,15 @@
+ /* pac man font source http://www.classicgaming.cc/classics/pac-man/fonts*/
+
+@font-face {
+    font-family: "joystix";
+    src: url("joystix.ttf");
+}
+
+@font-face {
+    font-family: "pac-font";
+    src: url("pac-font.ttf");
+}
+
 body {
   background-color: black;
   font-family: 'Audiowide', cursive;
@@ -14,6 +26,7 @@ canvas {
 .title-div {
   width: 1196px;
   display: block;
+  font-family: "pac-font";
 }
 
 #title {
@@ -26,6 +39,7 @@ canvas {
   display: inline-flex;
   color: blue;
   font-size: 30;
+  font-family: "joystix";
 }
 
 .left-col {
