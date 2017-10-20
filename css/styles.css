@@ -1,0 +1,58 @@
+body {
+  text-align: center;
+  background-color: black;
+  font-family: 'Audiowide', cursive;
+}
+
+canvas {
+  padding: 5px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #1532BC;
+  border-radius: 10px;
+}
+
+#title {
+  font-size: 40px;
+  color: #FFFF01;
+}
+
+.main-row {
+  display: inline-flex;
+  color: blue;
+  font-size: 30;
+}
+
+.left-col {
+  width: 240px;
+}
+
+.right-col {
+  width: 240px;
+}
+
+#sketch-holder-div {
+  padding-top: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #1532BC;
+  border-radius: 10px;
+}
+
+/*reuseable classes*//*reuseable classes*//*reuseable classes*/
+.center {
+  text-align: center;
+}
+
+.green-out {
+  outline-color: green;
+  outline-style: solid;
+  outline-width: 1px;
+}
+.red-out {
+  outline-color: red;
+  outline-style: solid;
+  outline-width: 1px;
+}
