@@ -24,7 +24,7 @@ const TILESIZE = 25;
 var myPac = new Pac(50,MHEIGHT / 2,5,42,'right','go');  // pac(someX,someY,someSpeed,someWidth,faceDirection,moveState)
 var myLevel = new Level();
 var lastKey = 'none';  // last pressed key
-var debugOn = true; // this sate will show the tile grid framecount and other debugging info in realtime
+var debugOn = false; // this sate will show the tile grid framecount and other debugging info in realtime
 
 function setup() {
   // createCanvas(w,h,[renderer])
@@ -41,6 +41,7 @@ function draw() {
   textSize(10);
   if (debugOn === true) {
     showGrid(TILESIZE);
+    myLevel.render();
     textSize(20);
     fill('#FFFF01');
     stroke('black'); // stroke(color,[alpha])
@@ -91,14 +92,14 @@ function showGrid(tileWidth) {
     stroke('green');
     line(i, 0, i, MHEIGHT);
     stroke('black');
-    text(ii, i-10, tileWidth*1.6);
+    // text(ii, i-10, tileWidth*1.6);
     ii += 1;
   }
   for (i=0; i<=MHEIGHT ; i+=tileWidth) {
     stroke('green');
     line(0, i, MWIDTH, i);
     stroke('black');
-    text(jj, tileWidth*1.6, i-10);
+    // text(jj, tileWidth*1.6, i-10);
     jj += 1;
   }
 }
@@ -210,6 +211,7 @@ function Tile(someType) {
 }
 
 function Level() {
+
   var layout = [
       [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
       [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
@@ -243,12 +245,20 @@ function Level() {
       [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
   ];
 
-  this.buildLevel =function() {
-    console.log(layout);
+  this.tileArr = layout;
+
+  this.buildLevel = function() {
+    console.log("building lvl");
   }
 
   this.render = function() {
 
+    for (var i=0; i<this.tileArr.length; i++) {
+      for (var j=0; j<this.tileArr[i].length; j++) {
+        arc(10*TILESIZE, 10*TILESIZE, 30, 30, 180, PIE);
+        text(this.tileArr[i][j], j*TILESIZE+TILESIZE, i*TILESIZE+TILESIZE);
+      }
+    }
   }
 }
 
