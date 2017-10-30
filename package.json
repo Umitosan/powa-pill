@@ -1,0 +1,19 @@
+{
+  "name": "powa-pill",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sketch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Umitosan/powa-pill.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Umitosan/powa-pill/issues"
+  },
+  "homepage": "https://github.com/Umitosan/powa-pill#readme"
+}

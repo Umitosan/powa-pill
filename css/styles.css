@@ -57,15 +57,9 @@ canvas {
   color: #1532BC;
 }
 
-.left-col {
-}
-
 #score {
   font-size: 28px;
   color: #FFFF01;
-}
-
-.right-col {
 }
 
 .label {
@@ -78,32 +72,28 @@ canvas {
 →	&#8594;	&rarr;	RIGHTWARDS ARROW
 ↓	&#8595;	&darr;	DOWNWARDS ARROW
 */
+
 .keycaps {
+  margin-top: 16px;
+  display: inline-block;
+  margin-bottom: 30px;
 }
-.cap-row1 {
-  width: 100%;
-}
-.cap-row2 {
-  width: 100%;
-}
-.keycap {
+.key {
+  text-align: center;
   height: 50px;
   width: 50px;
   font-size: 30px;
   border-color: blue;
   border-style: solid;
   border-width: 2px;
-  border-radius: 4px;
+  border-radius: 8px;
 }
-#up {
-  display: inline-block;
-  margin-bottom: 2px;
+th.key p {
+  font-size: 30px;
+  padding: 0px;
+  margin: 0px;
 }
-#left, #down, #right {
-  display: inline-block;
-  margin-left: -2px;
-  margin-right: -2px;
-}
+
 
 #sketch-holder-div {
   padding-top: 4px;
@@ -118,6 +108,11 @@ canvas {
 /*reuseable classes*//*reuseable classes*//*reuseable classes*/
 .center {
   text-align: center;
+}
+
+.lg-text {
+  font-size: 24px;
+  color: #FFFF01;
 }
 
 .green-out {

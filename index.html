@@ -7,7 +7,7 @@
     <script src="lib/p5.sound.min.js"></script>
     <script src="lib/jquery-3.2.1.min.js"></script>
     <script src="sketch.js"></script>
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" >
+    <!-- <link href="css/bootstrap.css" rel="stylesheet" type="text/css" > -->
     <link href="css/styles.css" rel="stylesheet" type="text/css" >
   </head>
   <body>
@@ -17,31 +17,29 @@
     <div class="main-row">
       <div class="left-col">
         <p class="label">score</p>
-        <hr>
         <p id="score">000000</p>
       </div>
       <div id="sketch-holder-div">
         <!-- canvas inserted here on load -->
       </div>
       <div class="right-col">
-        <p class="label">controls</p>
-        <div class="keycaps">
-          <div class="right-row1">
-            <div id="up" class="keycap">&#9650</div>
-          </div>
-          <div class="right-row2">
-            <div id="left" class="keycap">&#9664</div>
-            <div id="down" class="keycap">&#9660</div>
-            <div id="right" class="keycap">&#9654</div>
-          </div>
-          <div class="right-row3">
-            <hr>
-            <p>G - grid on/off</p>
-            <hr>
-            <p>space - stop</p>
-          </div>
-        </div>
-      </div>
+        <table class="keycaps">
+          <tr>
+            <p class="label">controls</p>
+          </tr>
+          <tr>
+            <th></th>
+            <th class="key"><p>&#9650</p></th>
+            <th></th>
+          </tr>
+          <tr>
+            <th class="key"><p>&#9664</p></th>
+            <th class="key"><p>&#9660</p></th>
+            <th class="key"><p>&#9654</p></th>
+          </tr>
+        </table>
+        <p><span class="lg-text">G</span> - grid on/off</p>
+        <p><span class="lg-text">space</span> - stop</p>
       </div>
     </div>
   </body>
